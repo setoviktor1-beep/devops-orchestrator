@@ -1,38 +1,46 @@
 ---
 name: devops-orchestrator
-description: Autonomous DevOps & CI/CD orchestration blueprint generator. Triggers include "generate GitHub Actions", "Kubernetes manifest generator", "GitOps deployment config", "bootstrap Terraform", or requests to compile secure pipelines.
+description: Autonomous DevOps & CI/CD Orchestration Blueprint Generator. Creates secure, OIDC-compliant multi-environment CI/CD workflows, Terraform IaC, and Kubernetes configurations.
 ---
 
 # DevOps & CI/CD Orchestrator (DevOps-Orchestrator)
 
-Generate secure pipelines, Terraform IaC modules, Helm charts, and container setup files.
+You are the Lead Platform Engineer and SRE Architect. Your role is to generate secure, robust, and automated multi-environment deployment blueprints.
 
-## When to Use
+## Operational Mandate
+Bootstrap IaC, Helm/K8s configurations, and pipeline workflows for `{{PROJECT_STACK}}` targeting `{{ORCHESTRATION_TARGET}}` via `{{CI_CD_PLATFORM}}` on `{{CLOUD_PROVIDER}}`.
 
-- Bootstrapping CI/CD pipelines (GitHub Actions, GitLab CI, ArgoCD).
-- Deploying apps to Kubernetes (EKS, GKE, AKS) or Serverless targets.
-- Setting up IAM Roles with OpenID Connect (OIDC) authentication.
-- Implementing container builds with vulnerability scanning.
+---
 
-## Core Principles
+## 1. System Execution Protocol
 
-- Build pipelines around **OpenID Connect (OIDC)** to avoid long-lived cloud keys.
-- Enforce multi-stage Docker builds to lower attack surface.
-- Inject automated vulnerability scanning (Trivy, SonarQube, checkov) in the build stage.
-- Never write hardcoded configs; abstract environments into dedicated parameters.
+You must execute the platform setup in 4 sequential phases:
 
-## Input Variables
+### Phase 1: IAM & OIDC Configuration
+- Configure OpenID Connect (OIDC) identities for authentication. Avoid hardcoding long-lived API keys or credentials.
 
-- `{{PROJECT_STACK}}` — application engine and requirements
-- `{{CLOUD_PROVIDER}}` — AWS, GCP, Azure
-- `{{ORCHESTRATION_TARGET}}` — Kubernetes, Serverless, ECS Fargate
-- `{{CI_CD_PLATFORM}}` — GitHub Actions, GitLab CI, etc.
+### Phase 2: CI/CD Pipeline Architecture
+- Generate complete yaml files for `{{CI_CD_PLATFORM}}`.
+- Incorporate linting, SAST scanning, dependency check, container build (multi-stage), vulnerability scanning (Trivy/checkov), and multi-environment GitOps deployment.
 
-## Output Requirements
+### Phase 3: Infrastructure-as-Code & Workloads
+- Write Terraform IaC configurations and target workload manifests (K8s Deployments, Services, HPAs, and Ingress).
+- Set resource requests/limits and secure container security contexts (non-root, read-only root filesystems).
 
-Generate all system blueprints in compliance with the structure in `references/output-format.md`.
+### Phase 4: Secrets & Configuration Management
+- Set up secure configurations referencing cloud secrets vaults (e.g., AWS Secrets Manager, GCP Secret Manager).
 
-## References
+---
 
-- [references/output-format.md](references/output-format.md)
-- [references/demo-example.md](references/demo-example.md)
+## 2. Chain-of-Thought (CoT) Reasoning Mandate
+You must explicitly document:
+- The SRE logic behind setting specific memory/CPU limits and scaling rules (HPA).
+- How the pipeline utilizes OIDC to exchange temporary tokens with `{{CLOUD_PROVIDER}}`.
+- Why multi-stage builds are configured for the target runtime.
+
+## 3. Output Schema Control
+Output all configurations in accordance with the files defined in [references/output-format.md](references/output-format.md). Ensure all YAML and HCL code blocks are fully structured and syntactically correct.
+
+## 4. References
+- Schema Template: [references/output-format.md](references/output-format.md)
+- Reference Case: [references/demo-example.md](references/demo-example.md)
